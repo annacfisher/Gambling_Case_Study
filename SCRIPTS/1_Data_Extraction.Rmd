@@ -1,0 +1,52 @@
+---
+title: "1_Data_Extraction"
+author: "Anna Fisher"
+date: "2025-03-25"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(mtsdi)
+library(forecast)
+library(ggplot2)
+library(lubridate)
+library(tidyverse)
+library(ggfortify)
+library(ggpubr)
+library(tseries)
+```
+
+Loading the Stock Data
+```{r}
+library(quantmod)
+
+# Get DraftKings stock data from Yahoo Finance
+getSymbols("DKNG", src = "yahoo", from = "2020-04-01", to = "2025-01-01")
+
+dkng_df <- data.frame(Date = index(DKNG), coredata(DKNG))
+#raw data set with all variables
+
+```
+
+```{r}
+library(dplyr)
+library(lubridate)
+
+
+# Create a column for year-week (ISO week format)
+dkng_df$Week <- floor_date(dkng_df$Date, unit = "week")
+
+# Aggregate data to weekly average
+weekly_data <- dkng_df %>%
+  group_by(Week) %>%
+  summarize(Adjusted = mean(DKNG.Adjusted, na.rm = TRUE))
+
+# View the first few rows
+head(weekly_data)
+#data set used for predictions
+```
+

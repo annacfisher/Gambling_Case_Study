@@ -1,0 +1,163 @@
+---
+title: "DSP_Project_2"
+author: "Henry Duke"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Splitting into train and test data
+```{r}
+library(dplyr)
+
+
+# Split the data into training and testing sets
+train_df <- weekly_data %>% filter(Week >= as.Date("2020-03-29") & Week <= as.Date("2023-12-31"))
+test_df <- weekly_data %>% filter(Week >= as.Date("2024-01-07") & Week <= as.Date("2024-12-29"))
+
+# Check the number of rows in each set
+cat("Training set rows:", nrow(train_df), "\n")
+cat("Testing set rows:", nrow(test_df), "\n")
+
+```
+
+
+Plotting the time series 
+```{r}
+# Convert to a weekly time series (frequency = 52 for 52 weeks per year)
+weekly_ts <- ts(train_df$Adjusted, frequency = 52, start = c(year(min(train_df$Week)), week(min(train_df$Week))))
+
+test_weekly_ts <- ts(test_df$Adjusted, frequency = 52, start = c(year(min(test_df$Week)), week(min(test_df$Week))))
+
+# Log transformation
+le <- log(weekly_ts)
+
+# Plot the weekly time series
+plot(weekly_ts, type='l', ylab="DraftKings", xlab="Year",
+     main="Average Weekly DraftKings Adjusted Stock Price")
+points(weekly_ts,pch=1,cex=0.7)
+
+plot(le, type='l', ylab="DraftKings", 
+     main="Log Average Weekly DraftKings Adjusted Stock Price")
+points(le,pch=1,cex=0.7)
+
+
+```
+Exploring the seasonal components
+```{r}
+acf(le, lag.max=104, main="ACF of Weekly Data")
+pacf(le, lag.max=104, main="PACF of Weekly Data")
+```
+
+```{r}
+decomp <- decompose(le, type="multiplicative")
+plot(decomp, col="darkgreen")
+
+```
+
+
+Difference transformations
+```{r}
+#first difference
+diff_log <- diff(le)
+#seasonal difference
+diff_szn <- diff(le, 52)
+#first difference applied to seasonal difference
+diff_1st_szn <- diff(diff_szn)
+```
+
+```{r}
+plot(diff_log,xlab='year',ylab='diff',type='l', main="1st Diff")
+points(diff_log,pch=1,cex=0.7)
+plot(diff_szn,xlab='year',ylab='sea-diff',type='l', main="Seasonal Diff")
+points(diff_szn,pch=1,cex=0.7)
+plot(diff_1st_szn,xlab='year',ylab='First and Seasonal Difference of Log-Adjusted Stock Price',type='l', main="First and Seasonal Difference", col= "darkgreen")
+points(diff_1st_szn,pch=1,cex=0.7, col = "darkgreen")
+```
+
+
+Augmented Dickey-Fuller test 
+```{r}
+library(tseries)
+#This will show whether the series is stationary or not
+adf.test(diff_log)
+
+```
+Analyze ACF and PACF of double differences series 
+```{r}
+astsa::acf2(diff_log, max.lag = 106)
+
+```
+Auto-Arima 
+```{r}
+library(forecast)
+auto <- auto.arima(le, approximation = FALSE)
+summary(auto)
+```
+```{r}
+library(astsa)
+mod.ari <- sarima(le, 2,1,0)
+```
+```{r}
+mod.ari
+```
+
+
+```{r}
+mod.ari1 <- sarima(le, 1,1,0)
+```
+```{r}
+mod.ari1
+```
+
+
+
+```{r}
+preds <- astsa::sarima.for(le,8,1,1,0,0,0,0,0)
+```
+```{r}
+mod.ari <- Arima(le, order = c(1,1,0))
+forecast_values <- forecast(mod.ari, h=52)
+```
+
+```{r}
+plot(forecast_values, main="ARIMA Forecast vs Training Data")
+lines(le, col="blue", lwd=2)  # Add training data in blue
+legend("topleft", legend=c("Training Data", "Forecast"), col=c("blue", "black"), lwd=2)
+
+```
+
+```{r}
+# Convert test data to time series
+ts_test <- log(test_df$Adjusted) 
+
+# Plot training, forecast, and actual test data
+plot(forecast_values, main="ARIMA Forecast vs Actual Data")
+lines(le, col="blue", lwd=2)  # Training data
+lines(ts_test, col="red", lwd=2)   # Actual test data
+legend("topleft", legend=c("Training Data", "Forecast", "Actual Data"),
+       col=c("blue", "black", "red"), lwd=2)
+
+```
+
+```{r}
+accuracy(forecast_values$mean, log(test_df$Adjusted))
+
+```
+
+
+
+
+Analyze MAPE 
+
+```{r}
+
+MAPE <- mean(abs((log(test_df$Adjusted) - forecast_values$mean) / log(test_df$Adjusted))) * 100
+
+```
+
+
+

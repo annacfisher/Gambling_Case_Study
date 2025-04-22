@@ -1,0 +1,83 @@
+## The below scripts relate to the EDA portion of our project, where we investigated different factors and variables within our dataset of extracted tweets.
+## The order of such scripts with plots are: 
+## 1) Time Series Line Chart of Adjusted Closing Price Over Time
+## 2) Bar Chart of DraftKings Trading Volume Trends Over Time
+## 3) Decomposition plot of the Log of Average Adjusted Weekly Price
+## 4) Line Plot of First and Seasonal Difference of Log of Average Weekly Adjusted DraftKings Stock Price
+
+## 1) Time Series Line Chart of Adjusted Closing Price Over Time
+# Importing necessary libraries libraries: pandas for data handling, matplotlib and seaborn for visualization.
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Below, the code loads the dataset, converts the 'Date' column to a datetime format for proper time-series indexing, and sets 'Date' as index to facilitate time-series plotting.
+data = pd.read_csv("/content/dkng_ts - dkng_ts.csv")
+data['Date'] = pd.to_datetime(data['Date'])
+data.set_index('Date', inplace=True)
+
+# The below code generates a line chart to visualize the adjusted closing price of DraftKings stock over time.
+plt.figure(figsize=(12, 6))
+plt.plot(data.index, data['DKNG.Adjusted'], color='green', linewidth=2, label="Adjusted Close")
+plt.xlabel('Date')
+plt.ylabel('Adjusted Closing Price (US$)')
+plt.title('Adjusted Closing Price Over Time')
+plt.legend()
+plt.grid(True, linestyle='--', alpha=0.6)
+
+plt.show()
+
+## 2) Bar Chart of DraftKings Trading Volume Trends Over Time
+# Importing necessary libraries libraries: pandas for data handling, matplotlib and seaborn for visualization.
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# See above for same explanation in loading the dataset, and formatting such.
+data = pd.read_csv("/content/dkng_ts - dkng_ts.csv")
+data['Date'] = pd.to_datetime(data['Date'])
+data.set_index('Date', inplace=True)
+
+# The below code generates a bar chart to visualize the trading volume of DraftKings stock over time.
+plt.figure(figsize=(12, 6))
+plt.bar(data.index, data['DKNG.Volume'], color='green', alpha=0.8, width=1.0)
+plt.xlabel('Date', fontsize=12, fontweight='bold')
+plt.ylabel('Volume Traded', fontsize=12, fontweight='bold')
+plt.title('Trading Volume Over Time', fontsize=14, fontweight='bold')
+plt.xticks(rotation=45)
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.tight_layout()
+
+plt.show()
+
+## 3) Decomposition plot of the Log of Average Adjusted Weekly Price
+decomp <- decompose(le, type="multiplicative")
+plot(decomp, col="darkgreen")
+
+## 4) Line Plot of First and Seasonal Difference of Log of Average Weekly Adjusted DraftKings Stock Price
+
+```{r}
+#first difference
+diff_log <- diff(le)
+#seasonal difference
+diff_szn <- diff(le, 52)
+#first difference applied to seasonal difference
+diff_1st_szn <- diff(diff_szn)
+```
+
+```{r}
+plot(diff_log,xlab='year',ylab='diff',type='l', main="1st Diff")
+points(diff_log,pch=1,cex=0.7)
+plot(diff_szn,xlab='year',ylab='sea-diff',type='l', main="Seasonal Diff")
+points(diff_szn,pch=1,cex=0.7)
+plot(diff_1st_szn,xlab='year',ylab='First and Seasonal Difference of Log-Adjusted Stock Price',type='l', main="First and Seasonal Difference", col= "darkgreen")
+points(diff_1st_szn,pch=1,cex=0.7, col = "darkgreen")
+```
+
+
+
+
+
+
+
+
