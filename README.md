@@ -1,8 +1,8 @@
-# DS4002_project2
-Project 2 github repository for DS 4002 group 16
+# Gambling_Case_Study
+GitHub repo for Betting Against Sports Betting Case Study - CS3 DS4002
 
 ## Contents
-Time series analysis of DraftKing's adjusted stock price over the time period of April 2020 to January 2025. Analyzes the impact of major sporting events on adjusted stock price and builds a model using seasonality to predict future stock prices.
+Case study analysis of DraftKings stock price. Students will analyze DraftKings stock over time and predict the next year of DraftKings prices to win a bet against a friend.
 
 ## Software and Platform
 
