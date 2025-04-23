@@ -7,7 +7,7 @@ This repo contains the hook document, detailed rubric, online references, and co
 
 ## Software and Platform
 
-This project was conducted using Google Colab, R, and Python, utilizing pandas for data handling, matplotlib and seaborn for visualization, and various statsmodels for time-series analysis. Stock data was sourced via the Yahoo Finance API using the quantmod package in R. The project was executed on Mac and Windows platforms. The packages used in python were seaborn, pandas, matplotlib.pyplot, and numpy. Packages used in R to build our mdoel were dyplr, lubridate, tseries, and forecast.
+This project was conducted using Google Colab, R, and Python, utilizing pandas for data handling, matplotlib and seaborn for visualization, and various statsmodels for time-series analysis. Stock data was sourced via the Yahoo Finance API using the quantmod package in R. The project was executed on Mac and Windows platforms. The packages used in python were seaborn, pandas, matplotlib.pyplot, and numpy. Packages used in R to build the model were dyplr, lubridate, tseries, and forecast.
 
 ## Map
 
