@@ -2,7 +2,7 @@
 GitHub repo for Betting Against Sports Betting Case Study - CS3 DS4002
 
 ## Contents
-Case study analysis of DraftKings stock price. Students will analyze DraftKings stock over time and predict the next year of DraftKings prices to decide the optimal time to buy and sell the stock. 
+Case study analysis of DraftKings stock price. Students will analyze DraftKings stock over time and predict the next year of DraftKings prices to decide the optimal time to buy and sell the stock. The goal of the study is to figure out how to make the most money off of DraftKings's stock to win a bet against a friend.
 
 ## Software and Platform
 
