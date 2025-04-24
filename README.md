@@ -9,23 +9,16 @@ This repo contains the hook document, detailed rubric, online references, and co
 
 This project was conducted using Google Colab, R, and Python, utilizing pandas for data handling, matplotlib and seaborn for visualization, and various statsmodels for time-series analysis. Stock data was sourced via the Yahoo Finance API using the quantmod package in R. The project was executed on Mac and Windows platforms. The packages used in python were seaborn, pandas, matplotlib.pyplot, and numpy. Packages used in R to build the model were dyplr, lubridate, tseries, and forecast.
 
-## Map
-
+## Map - MATERIALS Folder
 ### DATA folder:
 - Data_Appendix.pdf
 - dkng_ts.csv: raw data pulled from Yahood Finance
 - weekly_dkng.csv: cleaned data used for analysis
-### OUTPUT folder:
-- EDA_Plots.md: EDA plots created
-- Time_Series_Plots: Time series plots along with major sporting events
-- Model_Prediction: Results of the model to predicting future DKNG stock price
 ### SCRIPTS folder
 - 1_Data_Extraction.Rmd: Extracting DKNG stock data from Yahoo finance and cleaning for analysis
 - 2_EDA_Scripts: Scripts used to explore trends, seasonality, and volatility in DraftKings stock data through time series, trading volume, decomposition, and differencing plots.
 - 3_Sporting_Events_Analysis.ipynb: Time series plots looking at affect of major sports events on adjusted stock price
 - 4_Seasonal_Model.Rmd: Building seasonal model in R and testing accuracy of predictions
-### LICENSE
-- MIT License dictating how this data and analysis can be used.
 ### Extra Materials
 - Online resources to help you understand the motivation behind this case study and give you an overview of seasonal ARIMA models.
 
